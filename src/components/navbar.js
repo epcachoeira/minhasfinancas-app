@@ -2,17 +2,32 @@ import React from "react";
 
 import NavbarItem from "./navbarItem";
 
+import AuthService from "../app/services/authService";
+
+const deslogar = () => {
+    AuthService.removerUsuarioAutenticado();
+    refreshPage();
+}
+
+const isUsuarioAutenticado = () => {
+    return AuthService.isUsuarioAutenticado();
+}
+
+const refreshPage = () => {
+    window.location.reload(false);
+};
+
 function Navbar() {
     return(
         <div className="navbar navbar-expand-lg fixed-top navbar-dark bg-primary" >
             <div className="container">
-                <span className="navbar-brand">Minhas Finanças</span>
+                <a href="#/home" className="navbar-brand">Minhas Finanças</a>
                 <div className="collapse navbar-collapse" id="navbarResponsive">
                     <ul className="navbar-nav">
-                        <NavbarItem href="#/home" label="Home" />
-                        <NavbarItem href="#/cadastro-usuarios" label="Cadastre-se" />
-                        <NavbarItem href="#/consulta-lancamentos" label="Lançamentos" />
-                        <NavbarItem href="#/login" label="Login" />
+                       
+                        <NavbarItem render={true} href="#/cadastro-usuarios" label="Cadastre-se" />
+                        <NavbarItem render={isUsuarioAutenticado()} href="#/consulta-lancamentos" label="Lançamentos" />
+                        <NavbarItem render={isUsuarioAutenticado()} href="#/login" label="Sair" onClick={deslogar} />
                     </ul>
                 </div>
             </div>
@@ -21,12 +36,6 @@ function Navbar() {
 }
 
 export default Navbar;
-
 /*
-                <a href="https://bootswatch.com/" className="navbar-brand">Minhas Finanças</a>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" 
-                    data-target="#navbarResponsive" aria-controls="navbarResponsive" 
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
+ <NavbarItem render={isUsuarioAutenticado()} href="#/home" label="Home" />
 */

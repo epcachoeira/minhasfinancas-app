@@ -124,9 +124,11 @@ class CadastroUsuario extends React.Component {
                                         </FormGroup>
                                         <br/>
                                         <button onClick={() => this.salvar()} type="button" 
-                                            className="btn btn-success">Salvar</button>
+                                            className="btn btn-success">
+                                            <i className="pi pi-save"></i> Salvar</button>
                                         <button onClick={() => this.voltar()} type="button" 
-                                            className="btn btn-danger">Cancelar</button>
+                                            className="btn btn-danger">
+                                            <i className="pi pi-times"></i> Cancelar</button>
                     
                                     </fieldset>
 

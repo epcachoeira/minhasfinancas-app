@@ -5,12 +5,13 @@ import FormGroup from '../../components/form-group';
 import SelectMenu from "../../components/selectMenu";
 import LancamentosTable from "./lancamentosTable";
 import LocalStorageService from "../../app/services/localStorageService";
+import AuthService from "../../app/services/authService";
 
 import LancamentoService from "../../app/services/lancamentoService";
 
 import { withRouter } from 'react-router-dom';
 
-import { mensagemErro, mensagemSucesso } from '../../components/toastr';
+import { mensagemErro, mensagemSucesso, mensagemAlerta } from '../../components/toastr';
 
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
@@ -55,7 +56,11 @@ class ConsultaLancamentos extends React.Component {
         }
 
         this.service.consultar(lancamentoFiltro)
-            .then(response => {this.setState({lancamentos: response.data})})
+            .then(response => {
+                if(response.data.length < 1) {
+                    mensagemAlerta('Nenhum registro foi recuperado para os parâmetros de pesquisa')
+                }
+                this.setState({lancamentos: response.data})})
             .catch(error => {console.log(error.response)});
     }
 
@@ -154,8 +159,12 @@ class ConsultaLancamentos extends React.Component {
                                             onChange={e => this.setState({tipo: e.target.value})} />
                                         </FormGroup>
                                         
-                                        <button type="button" onClick={this.buscar} className="btn btn-success">Buscar</button>
-                                        <button type="button" onClick={this.cadastrar} className="btn btn-danger">Cadastrar</button>
+                                        <button type="button" onClick={this.buscar} 
+                                                className="btn btn-success">
+                                                <i className="pi pi-search"></i> Buscar</button>
+                                        <button type="button" onClick={this.cadastrar} 
+                                                className="btn btn-danger">
+                                                <i className="pi pi-plus"></i> Cadastrar</button>
                                     </fieldset>
                                 </form>
                                 </div>

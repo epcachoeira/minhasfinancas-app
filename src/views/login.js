@@ -2,14 +2,13 @@ import React from "react";
 
 import Card from '../components/card';
 import FormGroup from "../components/form-group";
-import { createBrowserHistory } from 'history';
 
 import { withRouter } from 'react-router-dom';
 
 import { mensagemErro } from '../components/toastr';
 
 import UsuarioService from "../app/services/usuarioService";
-import LocalStorageService from "../app/services/localStorageService";
+import ProvedorAutenticacao, { AuthContext } from "../main/provedorAutenticacao";
 
 class Login extends React.Component {
 
@@ -21,9 +20,8 @@ class Login extends React.Component {
     constructor() {
         super();
         this.service = new UsuarioService();
+        this.authContext = new ProvedorAutenticacao();
     };
-
-    history = createBrowserHistory();
 
     // Função REFRESHPAGE introduzida para forçar a recarga da URL. O React parou de fazer isto sozinho
     refreshPage() {
@@ -36,8 +34,10 @@ class Login extends React.Component {
             senha: this.state.senha
         })
         .then(response => {
-            LocalStorageService.adicionarItem('_usuario_logado', response.data);
+            this.authContext.iniciarSessao(response.data);
             this.props.history.push('/home');
+//            this.refreshPage();
+//            this.forceUpdate();
             this.refreshPage();
         }).catch(erro => {
             mensagemErro(erro.response.data);
@@ -74,12 +74,14 @@ class Login extends React.Component {
                                             id="exampleInputPassword1" 
                                             placeholder="Digite sua senha" />
                                         </FormGroup>
-                    
+                                        <br/>
                                         <button onClick={() => this.entrar()} type="button" 
-                                            className="btn btn-success">Entrar</button>
+                                            className="btn btn-success">
+                                            <i className="pi pi-sign-in"></i> Entrar</button>
 
                                         <button onClick={() => this.cadastrar()} type="button" 
-                                            className="btn btn-danger">Cadastre-se</button>
+                                            className="btn btn-danger"> 
+                                            <i className="pi pi-user-plus"></i> Cadastre-se</button>
                     
                                     </fieldset>
 
@@ -94,7 +96,10 @@ class Login extends React.Component {
     };
 }
 
+Login.contextType = AuthContext;
+
 export default withRouter( Login ); 
+
 /*
                                         <button onClick={() => this.cadastrar()} type="button" 
                                             className="btn btn-danger">Cadastrar</button>

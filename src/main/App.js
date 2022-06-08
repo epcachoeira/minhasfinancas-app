@@ -7,6 +7,7 @@ import 'toastr/build/toastr.css';
 
 import Rotas from './rotas';
 import Navbar from '../components/navbar';
+import ProvedorAutenticacao from './provedorAutenticacao';
 
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
@@ -16,12 +17,12 @@ class App extends React.Component {
 
   render(){
     return(
-      <>
+      <ProvedorAutenticacao>
         <Navbar />
         <div className='container'>
           <Rotas />
         </div>
-      </>
+      </ProvedorAutenticacao>
     )
   }
 }

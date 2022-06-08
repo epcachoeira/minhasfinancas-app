@@ -59,7 +59,7 @@ class CadastroLancamentos extends React.Component {
     validarLancto() {
         const erros = [];
 
-        if(!this.state.descrição) {
+        if(!this.state.descricao) {
             erros.push('É obrigatória a informação de uma descrição');
         }
 
@@ -235,11 +235,15 @@ class CadastroLancamentos extends React.Component {
                 </div>
                 <div className="row">
                     <div className="col-md-6">
-                    {this.state.atualizando
-                        ? <button type="button" className="btn btn-success" onClick={this.atualizar}>Atualizar</button>
-                        : <button type="button" className="btn btn-success" onClick={this.salvar}>Salvar</button>
+                    {this.state.atualizando ? 
+                        (   <button type="button" className="btn btn-success" 
+                            onClick={this.atualizar}><i className="pi pi-refresh"></i>  Atualizar</button>
+                        ) : (
+                            <button type="button" className="btn btn-success" 
+                            onClick={this.salvar}><i className="pi pi-save"></i>  Salvar</button> )
                     }
-                    <button type="button" className="btn btn-danger" onClick={this.cancelar}>Cancelar/Sair</button>
+                    <button type="button" className="btn btn-danger" 
+                            onClick={this.cancelar}><i className="pi pi-times"></i>  Cancelar/Sair</button>
                     </div>
                 </div>
             </Card>
